@@ -1,2 +1,2 @@
-# Interior-Ppint-Algorithm
+# Interior-Point-Algorithm
 Interior Point Algorthm
