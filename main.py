@@ -8,10 +8,21 @@ TEST = False
 if __name__ == "__main__":
     if TEST:
         unittest.main(module="tests")
-    C, A, x_init, alpha = input_lpp()
+    C, A, x_init, accuracy = input_lpp()
     try:
-        result = compute_lpp(C, A, x_init, alpha, .001)
-        value = get_z_of_x(C, result)
-        output_lpp(result, value)
+        # Now we try alpha = 0.5
+        result_for_a_0_5 = compute_lpp(C, A, x_init, .5, accuracy)
+        value = get_z_of_x(C, result_for_a_0_5)
+
+        print("With alpha = .5")
+        output_lpp(result_for_a_0_5, value)
+
+        # Now, as it was asked in the assignment, we set alpha = 0.9
+        result_for_a_0_9 = compute_lpp(C, A, x_init, .9, accuracy)
+        value = get_z_of_x(C, result_for_a_0_9)
+
+        print("With alpha = .9")
+        output_lpp(result_for_a_0_9, value)
+
     except ValueError as e:
         print_error(str(e))

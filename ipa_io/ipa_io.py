@@ -13,7 +13,7 @@ def input_lpp() -> tuple[np.array, np.array, np.array, float]:
         1) vector of coefficients of objective function - C.
         2) A matrix of coefficients of constraint function - A.
         3) A vector of right-hand side numbers - b.
-        4) Learning rate - alpha.
+        4) The approximation accuracy - accuracy.
     """
 
     print(BLUE + "Enter the number of variables in z function")
@@ -96,26 +96,26 @@ def input_lpp() -> tuple[np.array, np.array, np.array, float]:
         except ValueError as e:
             print(RED + f"Failed to make a conversion into floats: {e}" + BLUE)
 
-    print("Enter the alpha, learning rate of the method")
-    print(f"It's is recommended to use {GREEN}.5{BLUE} or any other number in range (0, 1)")
+    print("Enter the accuracy")
+    print(f"It's is recommended to use {GREEN}.001{BLUE} ")
 
-    alpha = 0
+    accuracy = 0
     while True:
         try:
             input_args = input().split()
             if len(input_args) != 1:
-                print(RED + "Only one number for alpha is required" + BLUE)
+                print(RED + "Only one number for accuracy is required" + BLUE)
                 continue
             alpha = float(input_args[0])
             break
         except ValueError as e:
-            print(RED + f"Failed to make a conversion for epsilon: {e}" + BLUE)
+            print(RED + f"Failed to make a conversion for accuracy: {e}" + BLUE)
     # alpha = 0
     # while eps < 1:
     #     alpha += 1
     #     eps *= 10
 
-    return c, a, x_initial, alpha
+    return c, a, x_initial, accuracy
 
 
 def output_not_applicable_error() -> None:
