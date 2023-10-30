@@ -50,7 +50,3 @@ def compute_lpp(z: np.array, A: np.array, x_initial: np.array, alpha: float, acc
         if norm(np.subtract(x, x_prev), ord=4) < accuracy:
             print("did {} iterations".format(i))
             return x
-
-
-if __name__ == "__main__":
-    pass

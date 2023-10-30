@@ -1,4 +1,7 @@
+from typing import Tuple, Any
+
 import numpy as np
+from numpy import ndarray, dtype
 
 GREEN = '\033[92m'
 RED = '\033[91m'
@@ -6,17 +9,19 @@ BLUE = '\033[34m'
 RESET = '\033[0m'
 
 
-def input_lpp() -> tuple[np.array, np.array, np.array, float]:
+def input_lpp() -> tuple[
+    ndarray[Any, dtype[Any]], ndarray[Any, dtype[Any]], ndarray[Any, dtype[Any]], ndarray[Any, dtype[Any]], float]:
     """
     Function reads input and returns
         1) maximize or minimize - true or false correspondingly.
         1) vector of coefficients of objective function - C.
         2) A matrix of coefficients of constraint function - A.
         3) A vector of right-hand side numbers - b.
-        4) The approximation accuracy - accuracy.
+        4) an initial point for interior point algorithm - x_init.
+        5) Accuracy in float (0.0001).
     """
 
-    print(BLUE + "Enter the number of variables in z function")
+    print(BLUE + "Enter the number of variables")
 
     var_count = 0
     while True:
@@ -80,9 +85,26 @@ def input_lpp() -> tuple[np.array, np.array, np.array, float]:
         except ValueError as e:
             print(RED + f"Failed to make a conversion into floats: {e}" + BLUE)
 
-    print(f"Enter the line with {GREEN}{len(c)}{BLUE} coordinates of the initial point ")
+    print(f"Enter the line with {GREEN}{constr_count}{BLUE} values of vector of right-hand side numbers separated by "
+          f"spaces")
 
-    x_initial = np.array([])
+    b = np.array([])
+    while True:
+        try:
+            input_args = input().split()
+            input_args_len = len(input_args)
+            if input_args_len != constr_count:
+                print(RED + f"You need to enter exactly {constr_count} coefficients, not {input_args_len}" + BLUE)
+                print("Please re-enter the coefficients")
+            var_list = list(map(float, input_args))
+            b = np.array(var_list)
+            break
+        except ValueError as e:
+            print(RED + f"Failed to make a conversion into floats: {e}" + BLUE)
+
+    print(f"Enter the line with {GREEN}{len(c)}{BLUE} values of initial point for IPA separated by spaces")
+
+    x_init = np.array([])
     while True:
         try:
             input_args = input().split()
@@ -91,31 +113,27 @@ def input_lpp() -> tuple[np.array, np.array, np.array, float]:
                 print(RED + f"You need to enter exactly {len(c)} coefficients, not {input_args_len}" + BLUE)
                 print("Please re-enter the coefficients")
             var_list = list(map(float, input_args))
-            x_initial = np.array(var_list)
+            x_init = np.array(var_list)
             break
         except ValueError as e:
             print(RED + f"Failed to make a conversion into floats: {e}" + BLUE)
 
-    print("Enter the accuracy")
-    print(f"It's is recommended to use {GREEN}.001{BLUE} ")
+    print("Enter the approximation accuracy you want")
+    print(f"It's is recommended to use {GREEN}0.001{BLUE} precision or better to avoid false-degeneration of solution")
 
-    accuracy = 0
+    accuracy = 0.0
     while True:
         try:
             input_args = input().split()
             if len(input_args) != 1:
-                print(RED + "Only one number for accuracy is required" + BLUE)
+                print(RED + "Only one number for epsilon is required" + BLUE)
                 continue
-            alpha = float(input_args[0])
+            accuracy = float(input_args[0])
             break
         except ValueError as e:
-            print(RED + f"Failed to make a conversion for accuracy: {e}" + BLUE)
-    # alpha = 0
-    # while eps < 1:
-    #     alpha += 1
-    #     eps *= 10
+            print(RED + f"Failed to make a conversion for epsilon: {e}" + BLUE)
 
-    return c, a, x_initial, accuracy
+    return c, a, b, x_init, accuracy
 
 
 def output_not_applicable_error() -> None:
