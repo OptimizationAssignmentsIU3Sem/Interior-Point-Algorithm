@@ -53,12 +53,4 @@ def compute_lpp(z: np.array, A: np.array, x_initial: np.array, alpha: float, acc
 
 
 if __name__ == "__main__":
-    x = np.array([1 / 2, 7 / 2, 1, 2], float)
-    alpha = 0.5
-    A = np.array([[2, 4, 1, 0], [1, 3, 0, -1]])
-    c = np.array([1, 1, 0, 0])
-
-    ans = compute_lpp(c, A, x, alpha, .00001)
-
-    print(ans, get_z_of_x(c, ans))
-
+    pass
