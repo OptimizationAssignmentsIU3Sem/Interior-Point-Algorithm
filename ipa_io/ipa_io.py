@@ -102,15 +102,16 @@ def input_lpp() -> tuple[
         except ValueError as e:
             print(RED + f"Failed to make a conversion into floats: {e}" + BLUE)
 
-    print(f"Enter the line with {GREEN}{len(c)}{BLUE} values of initial point for IPA separated by spaces")
+    print(f"Enter the line with {GREEN}{var_count + constr_count}{BLUE} values of initial point for IPA separated by "
+          f"spaces")
 
     x_init = np.array([])
     while True:
         try:
             input_args = input().split()
             input_args_len = len(input_args)
-            if input_args_len != len(c):
-                print(RED + f"You need to enter exactly {len(c)} coefficients, not {input_args_len}" + BLUE)
+            if input_args_len != var_count + constr_count:
+                print(RED + f"You need to enter exactly {var_count + constr_count} coefficients, not {input_args_len}" + BLUE)
                 print("Please re-enter the coefficients")
             var_list = list(map(float, input_args))
             x_init = np.array(var_list)
